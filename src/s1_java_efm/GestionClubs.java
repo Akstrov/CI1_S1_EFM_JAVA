@@ -4,6 +4,11 @@
  */
 package s1_java_efm;
 
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yalam
@@ -156,11 +161,39 @@ public class GestionClubs extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnClubAddActionPerformed
 
+    private void fillClubsTable(){
+        String query = "SELECT * FROM club";
+        try {
+            System.out.println("1");
+            st = con.prepareStatement(query);
+            rs = st.executeQuery();
+            DefaultTableModel model = new DefaultTableModel();
+            ResultSetMetaData metaData = rs.getMetaData();
+            System.out.println("2");
+            int columnCount = metaData.getColumnCount();
+            for(int i = 1;i<=columnCount;i++)
+                model.addColumn(metaData.getColumnName(i));
+            while(rs.next()){
+                System.out.println(rs.getString(2));
+                Object[] row = new Object[columnCount];
+                for(int i = 1;i<=columnCount;i++)
+                    row[i-1] = rs.getObject(i);
+                model.addRow(row);
+            }
+            tClubs.setModel(model);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        con = AppConfig.connexion();
         txtClubId.setVisible(false);
         btnClubUpdate.setVisible(false);
 //        lblClubId.setVisible(false);
+        fillClubsTable();
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -198,6 +231,9 @@ public class GestionClubs extends javax.swing.JFrame {
         });
     }
 
+    private Connection con;
+    private PreparedStatement st;
+    private ResultSet rs;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClubAdd;
     private javax.swing.JButton btnClubUpdate;

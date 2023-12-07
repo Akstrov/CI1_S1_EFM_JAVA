@@ -1,3 +1,5 @@
+package s1_java_efm;
+
 
 import javax.swing.JOptionPane;
 
