@@ -5,8 +5,10 @@
 package s1_java_efm;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -63,6 +65,11 @@ public class GestionClubs extends javax.swing.JFrame {
         });
 
         btnClubUpdate.setText("Modifier");
+        btnClubUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClubUpdateActionPerformed(evt);
+            }
+        });
 
         txtClubId.setEditable(false);
 
@@ -109,6 +116,11 @@ public class GestionClubs extends javax.swing.JFrame {
 
             }
         ));
+        tClubs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tClubsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tClubs);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -157,19 +169,35 @@ public class GestionClubs extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean nomValide(String nom){
+        return !nom.isBlank();
+    }
+    
     private void btnClubAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubAddActionPerformed
-        // TODO add your handling code here:
+        if(!nomValide(txtClubName.getText())){
+            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!","Erreur",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            
+        try {
+            // TODO add your handling code here:
+            st = con.prepareCall("INSERT INTO `club`(`nom`, `date_creation`) VALUES (?,?)");
+            st.setString(1, txtClubName.getText());
+            st.setDate(2, Date.valueOf(LocalDate.now()));
+            st.executeUpdate();
+            fillClubsTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionClubs.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnClubAddActionPerformed
 
     private void fillClubsTable(){
         String query = "SELECT * FROM club";
         try {
-            System.out.println("1");
             st = con.prepareStatement(query);
             rs = st.executeQuery();
             DefaultTableModel model = new DefaultTableModel();
             ResultSetMetaData metaData = rs.getMetaData();
-            System.out.println("2");
             int columnCount = metaData.getColumnCount();
             for(int i = 1;i<=columnCount;i++)
                 model.addColumn(metaData.getColumnName(i));
@@ -195,6 +223,28 @@ public class GestionClubs extends javax.swing.JFrame {
 //        lblClubId.setVisible(false);
         fillClubsTable();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tClubsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tClubsMouseClicked
+        // TODO add your handling code here:
+        txtClubName.setText((String) tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 1));
+        txtClubId.setVisible(true);
+        System.out.println(tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 0));
+        txtClubId.setText( tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 0).toString());
+        btnClubUpdate.setVisible(true);
+    }//GEN-LAST:event_tClubsMouseClicked
+
+    private void btnClubUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubUpdateActionPerformed
+        try {
+            // TODO add your handling code here:
+            st = con.prepareStatement("update club set nom = ? where id = ?");
+            st.setString(1, txtClubName.getText());
+            st.setInt(2, Integer.parseInt(txtClubId.getText()));
+            st.executeUpdate();
+            fillClubsTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionClubs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnClubUpdateActionPerformed
 
     /**
      * @param args the command line arguments

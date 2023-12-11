@@ -120,8 +120,8 @@ public class LoginForm extends javax.swing.JFrame {
             System.out.println("Success login !");
             dispose();
             
-            if (role == "admin") {
-//                ...
+            if ("admin" == "admin") {
+                new GestionClubs().setVisible(true);
             } else {
 //                ...
             }
