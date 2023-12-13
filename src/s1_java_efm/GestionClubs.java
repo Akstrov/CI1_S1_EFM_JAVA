@@ -215,7 +215,9 @@ public class GestionClubs extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClubAddActionPerformed
 
     private void fillClubsTable(){
-        String query = "SELECT * FROM club";
+        String query = "SELECT `club`.`id`, `club`.`nom`, `membre`.`nom`, `club`.`date_creation`\n" +
+                        "FROM `club` \n" +
+                        "INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
         try {
             st = con.prepareStatement(query);
             rs = st.executeQuery();
@@ -282,7 +284,7 @@ public class GestionClubs extends javax.swing.JFrame {
 
     private void btnShowMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowMembersActionPerformed
         // TODO add your handling code here:
-        new GestionMembres().setVisible(true);
+        new GestionMembres(Integer.parseInt(txtClubId.getText())).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnShowMembersActionPerformed
 

@@ -4,18 +4,32 @@
  */
 package s1_java_efm;
 
+
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author yalam
  */
 public class GestionMembres extends javax.swing.JFrame {
 
+    private Connection con;
+    private PreparedStatement pst;
+    private ResultSet rs;
+    private int clubId;
+    
     /**
      * Creates new form GestionMembres
      */
     public GestionMembres() {
         initComponents();
     }
+    public GestionMembres(int clubId){
+        initComponents();
+        this.clubId = clubId;
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,7 +56,7 @@ public class GestionMembres extends javax.swing.JFrame {
         btnMakeGerant = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tMembres = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -99,7 +113,7 @@ public class GestionMembres extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
-                .addGap(67, 67, 67))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnDelete, btnMakeGerant, btnUpdate});
@@ -136,7 +150,7 @@ public class GestionMembres extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tMembres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -147,7 +161,12 @@ public class GestionMembres extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tMembres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tMembresMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tMembres);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,7 +191,7 @@ public class GestionMembres extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(204, 204, 204)
-                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                 .addGap(208, 208, 208))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -198,6 +217,43 @@ public class GestionMembres extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private String clubTitle(){
+        try {
+            pst = con.prepareStatement("SELECT `nom` FROM `club` WHERE `id` = ?");
+            pst.setInt(1, clubId);
+            rs = pst.executeQuery();
+            rs.next();
+            return rs.getString("nom");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    private void FillClubMembers(){
+        try {
+            pst = con.prepareStatement("SELECT `id`, `nom`, `telephone`, `email`,"
+                    + " `date_inscription`, `role` FROM `membre` WHERE `id_club` = ?");
+            pst.setInt(1, clubId);
+            rs = pst.executeQuery();
+            DefaultTableModel model = new DefaultTableModel();
+            ResultSetMetaData metadata = rs.getMetaData();
+            int columnCount = metadata.getColumnCount();
+            for(int i = 1;i<=columnCount;i++)
+                model.addColumn(metadata.getColumnName(i));
+            while(rs.next()){
+                Object[] row = new Object[columnCount];
+                for(int i = 1;i<=columnCount;i++)
+                    row[i-1] = rs.getObject(i);
+                model.addRow(row);
+            }
+            tMembres.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         lblMembreId.setVisible(false);
@@ -205,7 +261,24 @@ public class GestionMembres extends javax.swing.JFrame {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         btnMakeGerant.setVisible(false);
+        con = AppConfig.connexion();
+        lblTitle.setText(lblTitle.getText() + " " + clubTitle());
+        FillClubMembers();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tMembresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tMembresMouseClicked
+        // TODO add your handling code here:
+        txtMembreId.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 0).toString());
+        txtNom.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 1).toString());
+        txtTelephone.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 3).toString());
+        txtEmail.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 4).toString());
+        lblMembreId.setVisible(true);
+        txtMembreId.setVisible(true);
+        btnDelete.setVisible(true);
+        btnUpdate.setVisible(true);
+        //change it so that if the member is already a gerant we don't show it
+        btnMakeGerant.setVisible(true);
+    }//GEN-LAST:event_tMembresMouseClicked
 
     /**
      * @param args the command line arguments
@@ -242,6 +315,7 @@ public class GestionMembres extends javax.swing.JFrame {
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
@@ -252,10 +326,10 @@ public class GestionMembres extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblMembreId;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel panel1;
+    private javax.swing.JTable tMembres;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMembreId;
     private javax.swing.JTextField txtNom;
