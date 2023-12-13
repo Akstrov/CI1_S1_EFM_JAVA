@@ -6,6 +6,7 @@ package s1_java_efm;
 
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -83,10 +84,25 @@ public class GestionMembres extends javax.swing.JFrame {
         txtMembreId.setEditable(false);
 
         btnAdd.setText("Ajouter");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Modifier");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Supprimer");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnMakeGerant.setText("Assigner gerant");
 
@@ -270,8 +286,8 @@ public class GestionMembres extends javax.swing.JFrame {
         // TODO add your handling code here:
         txtMembreId.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 0).toString());
         txtNom.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 1).toString());
-        txtTelephone.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 3).toString());
-        txtEmail.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 4).toString());
+        txtTelephone.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 2).toString());
+        txtEmail.setText(tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 3).toString());
         lblMembreId.setVisible(true);
         txtMembreId.setVisible(true);
         btnDelete.setVisible(true);
@@ -279,6 +295,63 @@ public class GestionMembres extends javax.swing.JFrame {
         //change it so that if the member is already a gerant we don't show it
         btnMakeGerant.setVisible(true);
     }//GEN-LAST:event_tMembresMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            // TODO add your handling code here:
+            String sqlQuery = "INSERT INTO `membre`(`nom`, `telephone`, `email`,"
+                    + " `date_inscription`, `role`, `id_club`) VALUES "
+                    + "(?,?,?,?,?,?)";
+            pst = con.prepareStatement(sqlQuery);
+            pst.setString(1, txtNom.getText());
+            pst.setString(2, txtTelephone.getText());
+            pst.setString(3, txtEmail.getText());
+            pst.setDate(4, Date.valueOf(LocalDate.now()));
+            pst.setString(5, "membre");
+            pst.setInt(6, clubId);
+            pst.executeUpdate();
+            FillClubMembers();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            String sqlQuery = "UPDATE `membre` SET `nom`=?,`telephone`=?,"
+                    + "`email`=?,`date_inscription`=? WHERE `id` = ?";
+            pst = con.prepareStatement(sqlQuery);
+            pst.setString(1, txtNom.getText());
+            pst.setString(2, txtTelephone.getText());
+            pst.setString(3, txtEmail.getText());
+            pst.setDate(4, Date.valueOf(LocalDate.now()));
+            pst.setInt(5, Integer.parseInt(txtMembreId.getText()));
+            pst.executeUpdate();
+            FillClubMembers();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            // TODO add your handling code here:
+            String sqlQuery = "DELETE FROM `membre` WHERE `id` = ?";
+            pst = con.prepareStatement(sqlQuery);
+            pst.setInt(1, Integer.parseInt(txtMembreId.getText()));
+            pst.executeUpdate();
+            FillClubMembers();
+            txtEmail.setText("");
+            txtMembreId.setText("");
+            txtNom.setText("");
+            txtTelephone.setText("");
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
