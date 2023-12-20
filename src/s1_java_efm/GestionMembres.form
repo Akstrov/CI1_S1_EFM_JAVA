@@ -93,16 +93,16 @@
                       <Component id="txtEmail" pref="141" max="32767" attributes="0"/>
                       <Component id="txtTelephone" max="32767" attributes="0"/>
                       <Component id="txtNom" max="32767" attributes="0"/>
-                      <Component id="txtMembreId" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
+                      <Component id="txtMembreId" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="106" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnMakeGerant" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAdd" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="btnUpdate" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="btnDelete" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="107" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -280,7 +280,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="50" green="3e" red="2c" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Back"/>
+        <Property name="text" type="java.lang.String" value="Home"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>

@@ -192,16 +192,16 @@ public class GestionClubs extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private boolean nomValide(String nom){
+    private boolean nomValide(String nom) {
         return !nom.isBlank();
     }
-    
+
     private void btnClubAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubAddActionPerformed
-        if(!nomValide(txtClubName.getText())){
-            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!","Erreur",JOptionPane.ERROR_MESSAGE);
+        if (!nomValide(txtClubName.getText())) {
+            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-            
+
         try {
             // TODO add your handling code here:
             st = con.prepareCall("INSERT INTO `club`(`nom`, `date_creation`) VALUES (?,?)");
@@ -214,31 +214,33 @@ public class GestionClubs extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnClubAddActionPerformed
 
-    private void fillClubsTable(){
+    private void fillClubsTable() {
         String query = "SELECT `club`.`id`, `club`.`nom`, `membre`.`nom` as 'gerant', "
-                + "`club`.`date_creation` as 'date creation' FROM `club` \n" +
-"	INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
+                + "`club`.`date_creation` as 'date creation' FROM `club` \n"
+                + "	INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
         try {
             st = con.prepareStatement(query);
             rs = st.executeQuery();
             DefaultTableModel model = new DefaultTableModel();
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
-            for(int i = 1;i<=columnCount;i++)
+            for (int i = 1; i <= columnCount; i++) {
                 model.addColumn(metaData.getColumnLabel(i));
-            while(rs.next()){
+            }
+            while (rs.next()) {
                 Object[] row = new Object[columnCount];
-                for(int i = 1;i<=columnCount;i++)
-                    row[i-1] = rs.getObject(i);
+                for (int i = 1; i <= columnCount; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
                 model.addRow(row);
             }
             tClubs.setModel(model);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
     }
-    
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         con = AppConfig.connexion();
@@ -254,7 +256,7 @@ public class GestionClubs extends javax.swing.JFrame {
         // TODO add your handling code here:
         txtClubName.setText((String) tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 1));
         txtClubId.setVisible(true);
-        txtClubId.setText( tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 0).toString());
+        txtClubId.setText(tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 0).toString());
         btnClubUpdate.setVisible(true);
         lblClubId.setVisible(true);
         btnShowEvents.setVisible(true);
@@ -262,12 +264,12 @@ public class GestionClubs extends javax.swing.JFrame {
     }//GEN-LAST:event_tClubsMouseClicked
 
     private void btnClubUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubUpdateActionPerformed
-        if(!nomValide(txtClubName.getText())){
-            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!","Erreur",JOptionPane.ERROR_MESSAGE);
+        if (!nomValide(txtClubName.getText())) {
+            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(txtClubId.getText().isBlank()){
-            JOptionPane.showMessageDialog(this, "Veuillez selectionner un club pour le modifier!","Erreur",JOptionPane.ERROR_MESSAGE);
+        if (txtClubId.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Veuillez selectionner un club pour le modifier!", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {

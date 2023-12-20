@@ -129,14 +129,14 @@ public class GestionMembres extends javax.swing.JFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                     .addComponent(txtTelephone)
                     .addComponent(txtNom)
-                    .addComponent(txtMembreId, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtMembreId))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMakeGerant)
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         panel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnDelete, btnMakeGerant, btnUpdate});
@@ -210,7 +210,7 @@ public class GestionMembres extends javax.swing.JFrame {
 
         btnBack.setBackground(new java.awt.Color(52, 152, 219));
         btnBack.setForeground(new java.awt.Color(44, 62, 80));
-        btnBack.setText("Back");
+        btnBack.setText("Home");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);

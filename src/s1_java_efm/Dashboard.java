@@ -34,7 +34,8 @@ public class Dashboard extends javax.swing.JFrame {
             instance = this;
         }
     }
-    public static Dashboard getInstance(){
+
+    public static Dashboard getInstance() {
         if (instance == null) {
             instance = new Dashboard();
         }
@@ -623,7 +624,8 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        dispose();
+        new GestionClubs().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -635,12 +637,14 @@ public class Dashboard extends javax.swing.JFrame {
             btnClub4.setVisible(false);
             con = AppConfig.connexion();
             pst = con.prepareStatement("""
-                                       SELECT club.id, club.nom as club_name, membre.nom AS gerant_name, COUNT(club_membre.id_membre) 
-                                       AS 'membre_count' FROM club
-                                       INNER JOIN club_membre ON club.id = club_membre.id_club
-                                       INNER JOIN membre ON club.id_gerant = membre.id
-                                       WHERE club.date_creation BETWEEN ? AND ? GROUP BY club.id, membre.nom
-                                       ORDER BY COUNT(club_membre.id_membre) DESC limit 4;""");
+                SELECT club.id, club.nom as club_name, membre.nom AS gerant_name, COUNT(club_membre.id_membre) 
+                AS 'membre_count' FROM club
+                LEFT JOIN club_membre ON club.id = club_membre.id_club
+                LEFT JOIN membre ON club.id_gerant = membre.id
+                WHERE club.date_creation BETWEEN ? AND ? GROUP BY club.id, membre.nom
+                ORDER BY COUNT(club_membre.id_membre) DESC limit 4;
+            """);
+            
             //determine the school year to show only the clubs of this school year
             LocalDate currentDate = LocalDate.now();
             int currentYear = currentDate.getMonthValue() >= 9 ? currentDate.getYear() : currentDate.getYear() - 1;
@@ -656,7 +660,7 @@ public class Dashboard extends javax.swing.JFrame {
                 clubCount++;
                 String clubName = rs.getString("club_name");
                 String gerantName = rs.getString("gerant_name");
-                int membreount =rs.getInt("membre_count");
+                int membreount = rs.getInt("membre_count");
                 int id = rs.getInt("id");
                 ids.add(id);
                 switch (clubCount) {
@@ -685,9 +689,10 @@ public class Dashboard extends javax.swing.JFrame {
                         btnClub4.setVisible(true);
                         break;
                 }
+                System.out.println(clubCount);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("" + ex.getMessage());
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -700,22 +705,22 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnClub2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub2ActionPerformed
         // TODO add your handling code here:
-         System.out.println(ids.get(1));
-         this.setVisible(false);
+        System.out.println(ids.get(1));
+        this.setVisible(false);
         new GestionMembres(ids.get(1)).setVisible(true);
     }//GEN-LAST:event_btnClub2ActionPerformed
 
     private void btnClub3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub3ActionPerformed
         // TODO add your handling code here:
-         System.out.println(ids.get(2));
-         this.setVisible(false);
+        System.out.println(ids.get(2));
+        this.setVisible(false);
         new GestionMembres(ids.get(2)).setVisible(true);
     }//GEN-LAST:event_btnClub3ActionPerformed
 
     private void btnClub4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub4ActionPerformed
         // TODO add your handling code here:
-         System.out.println(ids.get(3));
-         this.setVisible(false);
+        System.out.println(ids.get(3));
+        this.setVisible(false);
         new GestionMembres(ids.get(3)).setVisible(true);
     }//GEN-LAST:event_btnClub4ActionPerformed
 
