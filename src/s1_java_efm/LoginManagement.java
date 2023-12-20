@@ -1,6 +1,5 @@
 package s1_java_efm;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +22,21 @@ public class LoginManagement {
     static ResultSet rs = null;
     static PreparedStatement ps = null;
 
+    public static String getName() {
+        return name;
+    }
+
+    public static String getRole() {
+        return role;
+    }
+    private static String name;
+    private static String role;
+    private static int id;
+
+    public static int getId() {
+        return id;
+    }
+
     public static boolean validation(String un, String pwd) {
         String username = null;
         String password = null;
@@ -33,17 +47,20 @@ public class LoginManagement {
             ps.setString(2, pwd);
 
             rs = ps.executeQuery();
+            rs.next();
+            name = rs.getString("nom");
+            role = rs.getString("role");
+            username = rs.getString("nom_utilisateur");
+            password = rs.getString("mot_de_passe");
 
-            while (rs.next()) {
-                username = rs.getString("username");
-                password = rs.getString("password");
+            if (username == null || password == null) {
+                return false;
             }
-
-//            if (username == null || password == null) {
-//                return false;
-//            }
+            if (role.equals("gerant")) {
+                id = rs.getInt("id_gerant");
+            }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
         return true;
     }

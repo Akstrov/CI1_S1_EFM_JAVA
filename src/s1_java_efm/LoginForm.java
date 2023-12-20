@@ -1,6 +1,5 @@
 package s1_java_efm;
 
-
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -9,7 +8,6 @@ import javax.swing.UIManager;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author THUNDEROBOT
@@ -118,15 +116,12 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean isValide = LoginManagement.validation(txtUsername.getText(), txtPassword.getText());
         String role = LoginManagement.getRole(txtUsername.getText());
+        System.out.println(isValide);
         if (isValide) {
             System.out.println("Success login !");
             dispose();
-            
-            if ("admin" == "admin") {
-                new Dashboard().setVisible(true);
-            } else {
-//                ...
-            }
+            new Dashboard(LoginManagement.getId(), LoginManagement.getName(), LoginManagement.getRole()).setVisible(true);
+
         } else {
             System.out.println("Failed login !");
             JOptionPane.showMessageDialog(null, "Nom d'utilisateur ou mot de passe incorrecte.", "Avertissement", JOptionPane.ERROR_MESSAGE);
