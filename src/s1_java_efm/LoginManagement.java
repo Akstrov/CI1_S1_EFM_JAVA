@@ -1,6 +1,5 @@
 package s1_java_efm;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +22,21 @@ public class LoginManagement {
     static ResultSet rs = null;
     static PreparedStatement ps = null;
 
+    public static String getName() {
+        return name;
+    }
+
+    public static String getRole() {
+        return role;
+    }
+    private static String name;
+    private static String role;
+    private static int id;
+
+    public static int getId() {
+        return id;
+    }
+
     public static boolean validation(String un, String pwd) {
         String username = null;
         String password = null;
@@ -33,17 +47,27 @@ public class LoginManagement {
             ps.setString(2, pwd);
 
             rs = ps.executeQuery();
-
-            while (rs.next()) {
-                username = rs.getString("username");
-                password = rs.getString("password");
-            }
+            rs.next();
+            name = rs.getString("nom");
+            role = rs.getString("role");
+            username = rs.getString("nom_utilisateur");
+            password = rs.getString("mot_de_passe");
 
             if (username == null || password == null) {
                 return false;
             }
+            if (role.equals("gerant")) {
+                id = rs.getInt("id_gerant");
+            }
+<<<<<<< HEAD
+
+            if (username == null || password == null) {
+                return false;
+            }
+=======
+>>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
         return true;
     }

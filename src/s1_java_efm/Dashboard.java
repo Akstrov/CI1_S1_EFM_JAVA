@@ -23,6 +23,9 @@ public class Dashboard extends javax.swing.JFrame {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
+    private String name;
+    private String role;
+    private int id;
     ArrayList<Integer> ids;
 
     /**
@@ -35,6 +38,19 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
 
+<<<<<<< HEAD
+=======
+    public Dashboard(int id,String name, String role) {
+        initComponents();
+        if (instance == null) {
+            instance = this;
+        }
+        this.name = name;
+        this.role = role;
+        this.id = id;
+    }
+
+>>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
     public static Dashboard getInstance() {
         if (instance == null) {
             instance = new Dashboard();
@@ -52,10 +68,11 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblUserName = new javax.swing.JLabel();
+        btnClubs = new javax.swing.JButton();
+        btnEvents = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        btnMyClub = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lblClubName1 = new javax.swing.JLabel();
@@ -84,13 +101,21 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        lblEventTitle1 = new javax.swing.JLabel();
+        lblParticipants1 = new javax.swing.JLabel();
+        btnEvent1 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        lblEventTitle2 = new javax.swing.JLabel();
+        lblParticipants2 = new javax.swing.JLabel();
+        btnEvent2 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        lblEventTitle3 = new javax.swing.JLabel();
+        lblParticipants3 = new javax.swing.JLabel();
+        btnEvent3 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        lblEventTitle4 = new javax.swing.JLabel();
+        lblParticipants4 = new javax.swing.JLabel();
+        btnEvent4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion des clubs");
@@ -104,26 +129,36 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Youssef El hardouzi");
+        lblUserName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUserName.setText("Youssef El hardouzi");
 
-        jButton1.setBackground(new java.awt.Color(41, 128, 185));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Clubs");
-        jButton1.setFocusPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClubs.setBackground(new java.awt.Color(41, 128, 185));
+        btnClubs.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClubs.setText("Clubs");
+        btnClubs.setFocusPainted(false);
+        btnClubs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClubsActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(41, 128, 185));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("Evenements");
+        btnEvents.setBackground(new java.awt.Color(41, 128, 185));
+        btnEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEvents.setText("Evenements");
 
         jButton3.setBackground(new java.awt.Color(41, 128, 185));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setText("Se deconnecter");
+
+        btnMyClub.setBackground(new java.awt.Color(41, 128, 185));
+        btnMyClub.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnMyClub.setText("Mon club");
+        btnMyClub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMyClubActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -132,22 +167,25 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClubs, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3)
+                    .addComponent(btnMyClub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClubs, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
+                .addComponent(btnEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnMyClub, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -405,7 +443,10 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtGerant4, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnClub4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,10 +456,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(lblMembreCount4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnClub4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(txtGerant4)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +471,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(lblMembreCount4)
                 .addGap(18, 18, 18)
                 .addComponent(btnClub4)
-                .addContainerGap())
+                .addGap(12, 12, 12))
         );
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -447,10 +485,26 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(236, 240, 241));
         jPanel8.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        jLabel9.setBackground(new java.awt.Color(52, 152, 219));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel9.setText("jLabel2");
+        lblEventTitle1.setBackground(new java.awt.Color(52, 152, 219));
+        lblEventTitle1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEventTitle1.setForeground(new java.awt.Color(44, 62, 80));
+        lblEventTitle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEventTitle1.setText("jLabel2");
+
+        lblParticipants1.setBackground(new java.awt.Color(52, 152, 219));
+        lblParticipants1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblParticipants1.setForeground(new java.awt.Color(44, 62, 80));
+        lblParticipants1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblParticipants1.setText("jLabel2");
+
+        btnEvent1.setBackground(new java.awt.Color(52, 152, 219));
+        btnEvent1.setForeground(new java.awt.Color(44, 62, 80));
+        btnEvent1.setText("Detail");
+        btnEvent1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvent1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -458,24 +512,50 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEventTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblParticipants1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnEvent1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addComponent(lblEventTitle1)
+                .addGap(18, 18, 18)
+                .addComponent(lblParticipants1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(btnEvent1)
+                .addContainerGap())
         );
 
         jPanel9.setBackground(new java.awt.Color(236, 240, 241));
         jPanel9.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        jLabel10.setBackground(new java.awt.Color(52, 152, 219));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel10.setText("jLabel2");
+        lblEventTitle2.setBackground(new java.awt.Color(52, 152, 219));
+        lblEventTitle2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEventTitle2.setForeground(new java.awt.Color(44, 62, 80));
+        lblEventTitle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEventTitle2.setText("jLabel2");
+
+        lblParticipants2.setBackground(new java.awt.Color(52, 152, 219));
+        lblParticipants2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblParticipants2.setForeground(new java.awt.Color(44, 62, 80));
+        lblParticipants2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblParticipants2.setText("jLabel2");
+
+        btnEvent2.setBackground(new java.awt.Color(52, 152, 219));
+        btnEvent2.setForeground(new java.awt.Color(44, 62, 80));
+        btnEvent2.setText("Detail");
+        btnEvent2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvent2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -483,24 +563,50 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEventTitle2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblParticipants2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEvent2)
+                .addGap(20, 20, 20))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addComponent(lblEventTitle2)
+                .addGap(18, 18, 18)
+                .addComponent(lblParticipants2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(btnEvent2)
+                .addContainerGap())
         );
 
         jPanel10.setBackground(new java.awt.Color(236, 240, 241));
         jPanel10.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        jLabel11.setBackground(new java.awt.Color(52, 152, 219));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel11.setText("jLabel2");
+        lblEventTitle3.setBackground(new java.awt.Color(52, 152, 219));
+        lblEventTitle3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEventTitle3.setForeground(new java.awt.Color(44, 62, 80));
+        lblEventTitle3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEventTitle3.setText("jLabel2");
+
+        lblParticipants3.setBackground(new java.awt.Color(52, 152, 219));
+        lblParticipants3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblParticipants3.setForeground(new java.awt.Color(44, 62, 80));
+        lblParticipants3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblParticipants3.setText("jLabel2");
+
+        btnEvent3.setBackground(new java.awt.Color(52, 152, 219));
+        btnEvent3.setForeground(new java.awt.Color(44, 62, 80));
+        btnEvent3.setText("Detail");
+        btnEvent3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvent3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -508,24 +614,50 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEventTitle3, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblParticipants3, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEvent3)
+                .addGap(21, 21, 21))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addComponent(lblEventTitle3)
+                .addGap(18, 18, 18)
+                .addComponent(lblParticipants3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(btnEvent3)
+                .addContainerGap())
         );
 
         jPanel11.setBackground(new java.awt.Color(236, 240, 241));
         jPanel11.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        jLabel12.setBackground(new java.awt.Color(52, 152, 219));
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel12.setText("jLabel2");
+        lblEventTitle4.setBackground(new java.awt.Color(52, 152, 219));
+        lblEventTitle4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEventTitle4.setForeground(new java.awt.Color(44, 62, 80));
+        lblEventTitle4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEventTitle4.setText("jLabel2");
+
+        lblParticipants4.setBackground(new java.awt.Color(52, 152, 219));
+        lblParticipants4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblParticipants4.setForeground(new java.awt.Color(44, 62, 80));
+        lblParticipants4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblParticipants4.setText("jLabel2");
+
+        btnEvent4.setBackground(new java.awt.Color(52, 152, 219));
+        btnEvent4.setForeground(new java.awt.Color(44, 62, 80));
+        btnEvent4.setText("Detail");
+        btnEvent4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvent4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -533,15 +665,25 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEventTitle4, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblParticipants4, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEvent4)
+                .addGap(19, 19, 19))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addComponent(lblEventTitle4)
+                .addGap(18, 18, 18)
+                .addComponent(lblParticipants4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(btnEvent4)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -623,18 +765,25 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
         new GestionClubs().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+=======
+    private void btnClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubsActionPerformed
+        this.setVisible(false);
+        new GestionClubs().setVisible(true);
+    }//GEN-LAST:event_btnClubsActionPerformed
+>>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
             // TODO add your handling code here:
-            btnClub1.setVisible(false);
-            btnClub2.setVisible(false);
-            btnClub3.setVisible(false);
-            btnClub4.setVisible(false);
+            System.out.println("the id : " + id);
+            lblUserName.setText(name);
+            btnMyClub.setVisible(false);
+
             con = AppConfig.connexion();
             pst = con.prepareStatement("""
                 SELECT club.id, club.nom as club_name, membre.nom AS gerant_name, COUNT(club_membre.id_membre) 
@@ -654,6 +803,7 @@ public class Dashboard extends javax.swing.JFrame {
             pst.setDate(2, java.sql.Date.valueOf((currentYear + 1) + "-" + endingMonth + "-31")); // End date
 
             rs = pst.executeQuery();
+
             int clubCount = 0;
             ids = new ArrayList();
             while (rs.next()) {
@@ -691,6 +841,59 @@ public class Dashboard extends javax.swing.JFrame {
                 }
                 System.out.println(clubCount);
             }
+            pst = con.prepareStatement("""
+                                       select evenement.id as event_id, evenement.titre as event_title,count(paiement.id_membre)
+                                       as membre_count from evenement inner join paiement on evenement.id = paiement.id_evenement
+                                       GROUP by evenement.titre order by count(paiement.id_membre) desc;
+                                       """);
+            rs = pst.executeQuery();
+
+            int eventCount = 0;
+            ids = new ArrayList();
+            while (rs.next()) {
+                System.out.println("has next");
+                eventCount++;
+                String eventTitle = rs.getString("event_title");
+                int membreCount = rs.getInt("membre_count");
+                int id = rs.getInt("event_id");
+                ids.add(id);
+                switch (eventCount) {
+                    case 1:
+                        lblEventTitle1.setText(eventTitle);
+                        lblParticipants1.setText("Participants : " + membreCount);
+                        btnEvent1.setVisible(true);
+                        break;
+                    case 2:
+                        lblEventTitle2.setText(eventTitle);
+                        lblParticipants2.setText("Participants : " + membreCount);
+                        btnEvent2.setVisible(true);
+                        break;
+                    case 3:
+                        lblEventTitle3.setText(eventTitle);
+                        lblParticipants3.setText("Participants : " + membreCount);
+                        btnEvent3.setVisible(true);
+                        break;
+                    case 4:
+                        lblEventTitle4.setText(eventTitle);
+                        lblParticipants4.setText("Participants : " + membreCount);
+                        btnEvent4.setVisible(true);
+                        break;
+                }
+            }
+            if (role != "admin") {
+                btnClubs.setVisible(false);
+                btnEvents.setVisible(false);
+                btnClub1.setVisible(false);
+                btnClub2.setVisible(false);
+                btnClub3.setVisible(false);
+                btnClub4.setVisible(false);
+                btnEvent1.setVisible(false);
+                btnEvent2.setVisible(false);
+                btnEvent3.setVisible(false);
+                btnEvent4.setVisible(false);
+                btnMyClub.setVisible(true);
+            }
+
         } catch (SQLException ex) {
             System.out.println("" + ex.getMessage());
         }
@@ -723,6 +926,36 @@ public class Dashboard extends javax.swing.JFrame {
         this.setVisible(false);
         new GestionMembres(ids.get(3)).setVisible(true);
     }//GEN-LAST:event_btnClub4ActionPerformed
+
+    private void btnEvent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEvent1ActionPerformed
+
+    private void btnEvent2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEvent2ActionPerformed
+
+    private void btnEvent3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEvent3ActionPerformed
+
+    private void btnEvent4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEvent4ActionPerformed
+
+    private void btnMyClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClubActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            pst = con.prepareStatement("select id from club where id_gerant = ?");
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            rs.next();
+            new GestionMembres(rs.getInt("id")).setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnMyClubActionPerformed
 
     /**
      * @param args the command line arguments
@@ -765,16 +998,16 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnClub2;
     private javax.swing.JButton btnClub3;
     private javax.swing.JButton btnClub4;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnClubs;
+    private javax.swing.JButton btnEvent1;
+    private javax.swing.JButton btnEvent2;
+    private javax.swing.JButton btnEvent3;
+    private javax.swing.JButton btnEvent4;
+    private javax.swing.JButton btnEvents;
+    private javax.swing.JButton btnMyClub;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -793,10 +1026,19 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblClubName6;
     private javax.swing.JLabel lblClubName7;
     private javax.swing.JLabel lblClubName8;
+    private javax.swing.JLabel lblEventTitle1;
+    private javax.swing.JLabel lblEventTitle2;
+    private javax.swing.JLabel lblEventTitle3;
+    private javax.swing.JLabel lblEventTitle4;
     private javax.swing.JLabel lblMembreCount1;
     private javax.swing.JLabel lblMembreCount2;
     private javax.swing.JLabel lblMembreCount3;
     private javax.swing.JLabel lblMembreCount4;
+    private javax.swing.JLabel lblParticipants1;
+    private javax.swing.JLabel lblParticipants2;
+    private javax.swing.JLabel lblParticipants3;
+    private javax.swing.JLabel lblParticipants4;
+    private javax.swing.JLabel lblUserName;
     private javax.swing.JTextField txtGerant1;
     private javax.swing.JTextField txtGerant2;
     private javax.swing.JTextField txtGerant3;
