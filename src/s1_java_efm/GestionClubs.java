@@ -4,6 +4,13 @@
  */
 package s1_java_efm;
 
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yalam
@@ -27,12 +34,15 @@ public class GestionClubs extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        panel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtClubName = new javax.swing.JTextField();
         btnClubAdd = new javax.swing.JButton();
         btnClubUpdate = new javax.swing.JButton();
         txtClubId = new javax.swing.JTextField();
+        lblClubId = new javax.swing.JLabel();
+        btnShowMembers = new javax.swing.JButton();
+        btnShowEvents = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tClubs = new javax.swing.JTable();
@@ -58,52 +68,81 @@ public class GestionClubs extends javax.swing.JFrame {
         });
 
         btnClubUpdate.setText("Modifier");
+        btnClubUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClubUpdateActionPerformed(evt);
+            }
+        });
 
         txtClubId.setEditable(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lblClubId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblClubId.setText("ID");
+
+        btnShowMembers.setText("Afficher les membres");
+        btnShowMembers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowMembersActionPerformed(evt);
+            }
+        });
+
+        btnShowEvents.setText("Afficher les evenements");
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(jLabel2)
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtClubName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnClubAdd)
-                    .addComponent(btnClubUpdate))
-                .addGap(139, 139, 139))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblClubId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtClubName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(btnShowMembers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(32, 32, 32)))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnClubAdd)
+                            .addComponent(btnClubUpdate))
+                        .addGap(139, 139, 139))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(btnShowEvents, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                        .addGap(68, 68, 68))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtClubName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClubAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClubUpdate))
+                    .addComponent(btnClubUpdate)
+                    .addComponent(lblClubId))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnShowMembers)
+                    .addComponent(btnShowEvents))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tClubs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
+        tClubs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tClubsMouseClicked(evt);
             }
-        ));
+        });
         jScrollPane1.setViewportView(tClubs);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -117,9 +156,10 @@ public class GestionClubs extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,7 +173,7 @@ public class GestionClubs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -143,25 +183,110 @@ public class GestionClubs extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean nomValide(String nom){
+        return !nom.isBlank();
+    }
+    
     private void btnClubAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubAddActionPerformed
-        // TODO add your handling code here:
+        if(!nomValide(txtClubName.getText())){
+            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!","Erreur",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            
+        try {
+            // TODO add your handling code here:
+            st = con.prepareCall("INSERT INTO `club`(`nom`, `date_creation`) VALUES (?,?)");
+            st.setString(1, txtClubName.getText());
+            st.setDate(2, Date.valueOf(LocalDate.now()));
+            st.executeUpdate();
+            fillClubsTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionClubs.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnClubAddActionPerformed
 
+    private void fillClubsTable(){
+        String query = "SELECT `club`.`id`, `club`.`nom`, `membre`.`nom` as 'gerant', "
+                + "`club`.`date_creation` as 'date creation' FROM `club` \n" +
+"	INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
+        try {
+            st = con.prepareStatement(query);
+            rs = st.executeQuery();
+            DefaultTableModel model = new DefaultTableModel();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            for(int i = 1;i<=columnCount;i++)
+                model.addColumn(metaData.getColumnLabel(i));
+            while(rs.next()){
+                Object[] row = new Object[columnCount];
+                for(int i = 1;i<=columnCount;i++)
+                    row[i-1] = rs.getObject(i);
+                model.addRow(row);
+            }
+            tClubs.setModel(model);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        con = AppConfig.connexion();
         txtClubId.setVisible(false);
         btnClubUpdate.setVisible(false);
-//        lblClubId.setVisible(false);
+        lblClubId.setVisible(false);
+        btnShowEvents.setVisible(false);
+        btnShowMembers.setVisible(false);
+        fillClubsTable();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tClubsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tClubsMouseClicked
+        // TODO add your handling code here:
+        txtClubName.setText((String) tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 1));
+        txtClubId.setVisible(true);
+        txtClubId.setText( tClubs.getModel().getValueAt(tClubs.getSelectedRow(), 0).toString());
+        btnClubUpdate.setVisible(true);
+        lblClubId.setVisible(true);
+        btnShowEvents.setVisible(true);
+        btnShowMembers.setVisible(true);
+    }//GEN-LAST:event_tClubsMouseClicked
+
+    private void btnClubUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubUpdateActionPerformed
+        if(!nomValide(txtClubName.getText())){
+            JOptionPane.showMessageDialog(this, "Veuillez entrer le nom du club!","Erreur",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(txtClubId.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "Veuillez selectionner un club pour le modifier!","Erreur",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            // TODO add your handling code here:
+            st = con.prepareStatement("update club set nom = ? where id = ?");
+            st.setString(1, txtClubName.getText());
+            st.setInt(2, Integer.parseInt(txtClubId.getText()));
+            st.executeUpdate();
+            fillClubsTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionClubs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnClubUpdateActionPerformed
+
+    private void btnShowMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowMembersActionPerformed
+        // TODO add your handling code here:
+        new GestionMembres(Integer.parseInt(txtClubId.getText())).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnShowMembersActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,14 +323,20 @@ public class GestionClubs extends javax.swing.JFrame {
         });
     }
 
+    private Connection con;
+    private PreparedStatement st;
+    private ResultSet rs;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClubAdd;
     private javax.swing.JButton btnClubUpdate;
+    private javax.swing.JButton btnShowEvents;
+    private javax.swing.JButton btnShowMembers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblClubId;
+    private javax.swing.JPanel panel1;
     private javax.swing.JTable tClubs;
     private javax.swing.JTextField txtClubId;
     private javax.swing.JTextField txtClubName;

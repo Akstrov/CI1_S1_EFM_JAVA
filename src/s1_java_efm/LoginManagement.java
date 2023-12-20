@@ -1,3 +1,5 @@
+package s1_java_efm;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,9 +39,9 @@ public class LoginManagement {
                 password = rs.getString("password");
             }
 
-            if (username == null || password == null) {
-                return false;
-            }
+//            if (username == null || password == null) {
+//                return false;
+//            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
         }
