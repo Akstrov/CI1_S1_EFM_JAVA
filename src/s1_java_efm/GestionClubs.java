@@ -215,9 +215,9 @@ public class GestionClubs extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClubAddActionPerformed
 
     private void fillClubsTable(){
-        String query = "SELECT `club`.`id`, `club`.`nom`, `membre`.`nom`, `club`.`date_creation`\n" +
-                        "FROM `club` \n" +
-                        "INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
+        String query = "SELECT `club`.`id`, `club`.`nom`, `membre`.`nom` as 'gerant', "
+                + "`club`.`date_creation` as 'date creation' FROM `club` \n" +
+"	INNER JOIN `membre` ON `club`.`id_gerant` = `membre`.`id`;";
         try {
             st = con.prepareStatement(query);
             rs = st.executeQuery();
@@ -225,7 +225,7 @@ public class GestionClubs extends javax.swing.JFrame {
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             for(int i = 1;i<=columnCount;i++)
-                model.addColumn(metaData.getColumnName(i));
+                model.addColumn(metaData.getColumnLabel(i));
             while(rs.next()){
                 Object[] row = new Object[columnCount];
                 for(int i = 1;i<=columnCount;i++)
