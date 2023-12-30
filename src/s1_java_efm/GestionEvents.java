@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.sql.Statement;
+import java.sql.Date;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -24,12 +25,18 @@ public class GestionEvents extends javax.swing.JFrame {
     private PreparedStatement st;
     private ResultSet rs;
     private int clubId;
+    private String role;
 
     /**
      * Creates new form GestionEvents
      */
     public GestionEvents() {
         initComponents();
+    }
+    public GestionEvents(int clubId,String role){
+        initComponents();
+        this.clubId = clubId;
+        this.role = role;
     }
 
     /**
@@ -44,23 +51,31 @@ public class GestionEvents extends javax.swing.JFrame {
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         dcStart = new com.raven.datechooser.DateChooser();
         dcEnd = new com.raven.datechooser.DateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tEvents = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        btnUpdate = new javax.swing.JButton();
         txtTitle = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         scrollDescription = new javax.swing.JScrollPane();
         txtDescription = new javax.swing.JTextArea();
         txtEnd = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cmbClubs = new javax.swing.JComboBox<>();
+        lblClub = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtStart = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cmbStatus = new javax.swing.JComboBox<>();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -80,151 +95,345 @@ public class GestionEvents extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
+        jLabel1.setText("Evénements");
+
+        btnBack.setBackground(new java.awt.Color(52, 152, 219));
+        btnBack.setForeground(new java.awt.Color(44, 62, 80));
+        btnBack.setText("Home");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        tEvents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tEventsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tEvents);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
-        jLabel1.setText("Evénement de ");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
+        );
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("Ajouter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        txtId.setEditable(false);
+
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpdate.setText("Modifier");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Titre: ");
         jLabel2.setToolTipText("");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Prix: ");
-        jLabel3.setToolTipText("");
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Description: ");
-        jLabel4.setToolTipText("");
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Date de fin: ");
-        jLabel5.setToolTipText("");
+        txtDescription.setColumns(10);
+        txtDescription.setRows(1);
+        scrollDescription.setViewportView(txtDescription);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Date du début: ");
         jLabel6.setToolTipText("");
 
-        txtDescription.setColumns(10);
-        txtDescription.setRows(1);
-        scrollDescription.setViewportView(txtDescription);
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Date de fin: ");
+        jLabel5.setToolTipText("");
 
-        txtStart.addActionListener(new java.awt.event.ActionListener() {
+        cmbClubs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStartActionPerformed(evt);
+                cmbClubsActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Ajouter");
+        lblClub.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblClub.setText("Club:");
+        lblClub.setToolTipText("");
 
-        jButton2.setText("Modifier");
+        lblId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblId.setText("Id:");
+        lblId.setToolTipText("");
 
-        jButton3.setText("Supprimer");
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Description: ");
+        jLabel4.setToolTipText("");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Prix: ");
+        jLabel3.setToolTipText("");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Status:");
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Termine", "En cours", "Prevu" }));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(lblId))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTitle)
+                            .addComponent(txtId)
+                            .addComponent(scrollDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(lblClub, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtStart)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtEnd)
+                            .addComponent(cmbClubs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbStatus, 0, 217, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStart)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(10, 10, 10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEnd)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(2, 2, 2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPrice)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblClub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbClubs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(46, 46, 46))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblId)
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel2))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(scrollDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnUpdate))
+                .addGap(50, 50, 50))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtStart)
-                    .addComponent(jLabel1)
-                    .addComponent(scrollDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                    .addComponent(txtTitle)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtEnd))
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(101, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(238, 238, 238)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTitle)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(scrollDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtStart)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(10, 10, 10)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEnd)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(2, 2, 2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrice)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStartActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStartActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        FillClubMembers();
+        lblId.setVisible(false);
+        txtId.setVisible(false);
+        if(!role.toLowerCase().equals("admin")){
+            lblClub.setVisible(false);
+            cmbClubs.setVisible(false);
+        }else{
+            FillClubs();
+        }
+        FillClubEvents(clubId);
     }//GEN-LAST:event_formWindowOpened
 
-    private void FillClubMembers() {
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Dashboard.getInstance().setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void tEventsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tEventsMouseClicked
+        try {
+            // TODO add your handling code here:
+            lblId.setVisible(true);
+            txtId.setVisible(true);
+            DefaultTableModel model = (DefaultTableModel) tEvents.getModel();
+            int row = tEvents.getSelectedRow();
+            txtId.setText(model.getValueAt(row, 0).toString());
+            txtTitle.setText(model.getValueAt(row, 1).toString());
+            txtDescription.setText(model.getValueAt(row, 2).toString());
+            txtStart.setText( model.getValueAt(row, 3).toString());
+            txtEnd.setText(model.getValueAt(row, 4).toString());
+            cmbStatus.setSelectedItem(model.getValueAt(row, 5).toString());
+            txtPrice.setText(model.getValueAt(row, 6).toString());
+            st = con.prepareStatement("select id_club from evenement where id = ?");
+            st.setInt(1, Integer.parseInt(txtId.getText()));
+            rs = st.executeQuery();
+            rs.next();
+            if(role.toLowerCase().equals("admin"))
+                cmbClubs.setSelectedIndex(rs.getInt("id_club"));
+            //if the events is past, stop modification
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tEventsMouseClicked
+
+    private void cmbClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClubsActionPerformed
+        // TODO add your handling code here:
+        FillClubEvents(cmbClubs.getSelectedIndex());
+    }//GEN-LAST:event_cmbClubsActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            st = con.prepareStatement("UPDATE `evenement` SET `titre`=?,"
+                    + "`description`=?,`id_club`=?,`date_debut`=?,"
+                    + "`date_fin`=?,`status`=?,`prix`=? WHERE `id` = ?");
+            st.setString(1, txtTitle.getText());
+            st.setString(2, txtDescription.getText());
+            st.setInt(3, role.toLowerCase().equals("admin") ? cmbClubs.getSelectedIndex() : clubId);
+            st.setDate(4, Date.valueOf(txtStart.getText()));
+            st.setDate(5, Date.valueOf(txtEnd.getText()));
+            st.setString(6, cmbStatus.getSelectedItem().toString());
+            st.setFloat(7, Float.parseFloat(txtPrice.getText()));
+            st.setInt(8, Integer.parseInt(txtId.getText()));
+            st.executeUpdate();
+            FillClubEvents(role.toLowerCase().equals("admin") ? cmbClubs.getSelectedIndex() : clubId);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            st = con.prepareStatement("INSERT INTO `evenement`(`titre`, `description`,"
+                    + " `id_club`, `date_debut`, `date_fin`, `status`, `prix`) VALUES "
+                    + "(?,?,?,?,?,?,?)");
+            st.setString(1, txtTitle.getText());
+            st.setString(2, txtDescription.getText());
+            st.setInt(3, role.toLowerCase().equals("admin") ? cmbClubs.getSelectedIndex() : clubId);
+            st.setDate(4, Date.valueOf(txtStart.getText()));
+            st.setDate(5, Date.valueOf(txtEnd.getText()));
+            st.setString(6, cmbStatus.getSelectedItem().toString());
+            st.setFloat(7, Float.parseFloat(txtPrice.getText()));
+            st.executeUpdate();
+            FillClubEvents(role.toLowerCase().equals("admin") ? cmbClubs.getSelectedIndex() : clubId);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void FillClubs(){
+        try {
+            st = con.prepareStatement("select nom from club");
+            rs = st.executeQuery();
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            model.addElement("All");
+            while(rs.next()){
+                model.addElement(rs.getString("nom"));
+            }
+            cmbClubs.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void FillClubEvents(int clubId) {
 
         if (con == null) {
             System.out.println("La connexion à la base de données est nulle.");
             return;
         }
 
-        String query = "SELECT evenement.id as Id, `titre` as Titre, `description` as Description, "
-                + "club.nom as Club, `date_debut` as 'Date du début', "
-                + "`date_fin` as 'Date de fin', `status` as Statue, `prix` as Prix "
-                + "FROM `evenement` "
-                + "INNER JOIN club "
-                + "ON club.id = evenement.id_club "
-                + "WHERE status = 'upcomming'";
+        String query = "SELECT evenement.id as Id, `titre` as Titre, `description` "
+                + "as Description, `date_debut` as 'Date du début', `date_fin` as 'Date de fin',"
+                + " `status` as Statue, `prix` as Prix FROM `evenement` WHERE id_club = ? or ? = 0";
         try {
             st = con.prepareStatement(query);
+            st.setInt(1, clubId);
+            st.setInt(2, clubId);
             rs = st.executeQuery();
             DefaultTableModel model = new DefaultTableModel();
             ResultSetMetaData metaData = rs.getMetaData();
@@ -281,11 +490,13 @@ public class GestionEvents extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbClubs;
+    private javax.swing.JComboBox<String> cmbStatus;
     private com.raven.datechooser.DateChooser dcEnd;
     private com.raven.datechooser.DateChooser dcStart;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -293,11 +504,17 @@ public class GestionEvents extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblClub;
+    private javax.swing.JLabel lblId;
     private static javax.swing.JScrollPane scrollDescription;
     private javax.swing.JTable tEvents;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtEnd;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtStart;
     private javax.swing.JTextField txtTitle;

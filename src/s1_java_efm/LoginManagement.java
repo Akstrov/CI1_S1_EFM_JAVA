@@ -59,13 +59,10 @@ public class LoginManagement {
             if (role.equals("gerant")) {
                 id = rs.getInt("id_gerant");
             }
-<<<<<<< HEAD
 
             if (username == null || password == null) {
                 return false;
             }
-=======
->>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
         } catch (SQLException e) {
             return false;
         }

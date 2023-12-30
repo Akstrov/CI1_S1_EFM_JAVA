@@ -26,6 +26,7 @@ public class Dashboard extends javax.swing.JFrame {
     private String name;
     private String role;
     private int id;
+    int clubId = 0;
     ArrayList<Integer> ids;
 
     /**
@@ -38,9 +39,7 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
 
-<<<<<<< HEAD
-=======
-    public Dashboard(int id,String name, String role) {
+    public Dashboard(int id, String name, String role) {
         initComponents();
         if (instance == null) {
             instance = this;
@@ -50,7 +49,6 @@ public class Dashboard extends javax.swing.JFrame {
         this.id = id;
     }
 
->>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
     public static Dashboard getInstance() {
         if (instance == null) {
             instance = new Dashboard();
@@ -146,6 +144,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnEvents.setBackground(new java.awt.Color(41, 128, 185));
         btnEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEvents.setText("Evenements");
+        btnEvents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEventsActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(41, 128, 185));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -169,10 +172,14 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClubs, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(btnMyClub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMyClub, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEvents, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,10 +189,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnClubs, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(btnMyClub, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -742,7 +749,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel10, jPanel11, jPanel3, jPanel4, jPanel5, jPanel6, jPanel8, jPanel9});
@@ -765,17 +772,14 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-<<<<<<< HEAD
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
         new GestionClubs().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-=======
     private void btnClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubsActionPerformed
         this.setVisible(false);
         new GestionClubs().setVisible(true);
     }//GEN-LAST:event_btnClubsActionPerformed
->>>>>>> 3b82e76eb59b4ac14583980fe1d315e0ac60472d
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
@@ -793,7 +797,7 @@ public class Dashboard extends javax.swing.JFrame {
                 WHERE club.date_creation BETWEEN ? AND ? GROUP BY club.id, membre.nom
                 ORDER BY COUNT(club_membre.id_membre) DESC limit 4;
             """);
-            
+
             //determine the school year to show only the clubs of this school year
             LocalDate currentDate = LocalDate.now();
             int currentYear = currentDate.getMonthValue() >= 9 ? currentDate.getYear() : currentDate.getYear() - 1;
@@ -880,9 +884,10 @@ public class Dashboard extends javax.swing.JFrame {
                         break;
                 }
             }
-            if (role != "admin") {
+            if (!role.equals("admin")) {
+                gerantClubId();
                 btnClubs.setVisible(false);
-                btnEvents.setVisible(false);
+                btnEvents.setVisible(true);
                 btnClub1.setVisible(false);
                 btnClub2.setVisible(false);
                 btnClub3.setVisible(false);
@@ -943,19 +948,29 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEvent4ActionPerformed
 
-    private void btnMyClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClubActionPerformed
+    public void gerantClubId(){
         try {
-            // TODO add your handling code here:
-            this.setVisible(false);
             pst = con.prepareStatement("select id from club where id_gerant = ?");
             pst.setInt(1, id);
             rs = pst.executeQuery();
             rs.next();
-            new GestionMembres(rs.getInt("id")).setVisible(true);
+            clubId = rs.getInt("id");
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void btnMyClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClubActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new GestionMembres(clubId).setVisible(true);
     }//GEN-LAST:event_btnMyClubActionPerformed
+
+    private void btnEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEventsActionPerformed
+        // TODO add your handling code here:
+        new GestionEvents(clubId,role).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnEventsActionPerformed
 
     /**
      * @param args the command line arguments
