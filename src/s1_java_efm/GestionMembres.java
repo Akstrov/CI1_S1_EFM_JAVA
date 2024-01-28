@@ -112,6 +112,11 @@ public class GestionMembres extends javax.swing.JFrame {
         });
 
         btnMakeGerant.setText("Assigner gerant");
+        btnMakeGerant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMakeGerantActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -315,7 +320,11 @@ public class GestionMembres extends javax.swing.JFrame {
         btnDelete.setVisible(true);
         btnUpdate.setVisible(true);
         //change it so that if the member is already a gerant we don't show it
-        btnMakeGerant.setVisible(true);
+        if ( !tMembres.getModel().getValueAt(tMembres.getSelectedRow(), 5).equals("gerant")){
+            btnMakeGerant.setVisible(true);
+        }else{
+            btnMakeGerant.setVisible(false);
+        }
     }//GEN-LAST:event_tMembresMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -391,6 +400,38 @@ public class GestionMembres extends javax.swing.JFrame {
         Dashboard.getInstance().setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnMakeGerantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakeGerantActionPerformed
+        try {
+            // TODO add your handling code here:
+            pst = con.prepareStatement("SELECT `membre`.`id` FROM `membre` \n" +
+"	LEFT JOIN `club_membre` ON `club_membre`.`id_membre` = `membre`.`id` \n" +
+"	LEFT JOIN `club` ON `club`.`id_gerant` = `membre`.`id` WHERE `membre`.`role` = 'gerant'"
+                    + " and `club`.`id` = ?;");
+            pst.setInt(1, clubId);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            int oldGerantId = rs.getInt("id");
+            removeGerant(oldGerantId);
+            new NewUser(Integer.parseInt(txtMembreId.getText()), clubId).setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnMakeGerantActionPerformed
+
+    private void removeGerant(int gerantId){
+        try {
+            pst = con.prepareStatement("UPDATE `membre` SET `role` = 'user' WHERE `id` = ?");
+            pst.setInt(1, gerantId);
+            pst.executeUpdate();
+            pst = con.prepareStatement("DELETE FROM `users` WHERE `id_gerant` = ?");
+            pst.setInt(1, gerantId);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionMembres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

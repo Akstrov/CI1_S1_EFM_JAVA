@@ -17,11 +17,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GestionClubs extends javax.swing.JFrame {
 
+    private String role;
     /**
      * Creates new form GestionClubs
      */
     public GestionClubs() {
         initComponents();
+    }
+    public GestionClubs(String role){
+        initComponents();
+        this.role = role;
     }
 
     /**
@@ -88,6 +93,11 @@ public class GestionClubs extends javax.swing.JFrame {
         });
 
         btnShowEvents.setText("Afficher les evenements");
+        btnShowEvents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowEventsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -307,6 +317,12 @@ public class GestionClubs extends javax.swing.JFrame {
         this.setVisible(false);
         Dashboard.getInstance().setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnShowEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowEventsActionPerformed
+        // TODO add your handling code here:
+        new GestionEvents(Integer.parseInt(txtClubId.getText()),this.role).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnShowEventsActionPerformed
 
     /**
      * @param args the command line arguments

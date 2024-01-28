@@ -5,7 +5,6 @@
 package s1_java_efm;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 
 /**

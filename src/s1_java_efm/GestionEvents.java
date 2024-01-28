@@ -49,8 +49,6 @@ public class GestionEvents extends javax.swing.JFrame {
     private void initComponents() {
 
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        dcStart = new com.raven.datechooser.DateChooser();
-        dcEnd = new com.raven.datechooser.DateChooser();
         jLabel1 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -79,14 +77,6 @@ public class GestionEvents extends javax.swing.JFrame {
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
-
-        dcStart.setForeground(new java.awt.Color(204, 204, 204));
-        dcStart.setDateFormat("yyyy-MM-dd");
-        dcStart.setTextRefernce(txtStart);
-
-        dcEnd.setForeground(new java.awt.Color(204, 204, 204));
-        dcEnd.setDateFormat("yyyy-MM-dd");
-        dcEnd.setTextRefernce(txtEnd);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -321,8 +311,11 @@ public class GestionEvents extends javax.swing.JFrame {
         if(!role.toLowerCase().equals("admin")){
             lblClub.setVisible(false);
             cmbClubs.setVisible(false);
+            
         }else{
             FillClubs();
+            System.out.println("clubId " + this.clubId);
+            cmbClubs.setSelectedIndex(this.clubId);
         }
         FillClubEvents(clubId);
     }//GEN-LAST:event_formWindowOpened
@@ -494,8 +487,6 @@ public class GestionEvents extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbClubs;
     private javax.swing.JComboBox<String> cmbStatus;
-    private com.raven.datechooser.DateChooser dcEnd;
-    private com.raven.datechooser.DateChooser dcStart;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;

@@ -27,7 +27,8 @@ public class Dashboard extends javax.swing.JFrame {
     private String role;
     private int id;
     int clubId = 0;
-    ArrayList<Integer> ids;
+    ArrayList<Integer> idsClubs;
+    ArrayList<Integer> idsEvenets;
 
     /**
      * Creates new form Dashboard
@@ -54,6 +55,10 @@ public class Dashboard extends javax.swing.JFrame {
             instance = new Dashboard();
         }
         return instance;
+    }
+    
+    public String geRole(){
+        return this.role;
     }
 
     /**
@@ -778,7 +783,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     private void btnClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClubsActionPerformed
         this.setVisible(false);
-        new GestionClubs().setVisible(true);
+        new GestionClubs(role).setVisible(true);
     }//GEN-LAST:event_btnClubsActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -809,14 +814,14 @@ public class Dashboard extends javax.swing.JFrame {
             rs = pst.executeQuery();
 
             int clubCount = 0;
-            ids = new ArrayList();
+            idsClubs = new ArrayList();
             while (rs.next()) {
                 clubCount++;
                 String clubName = rs.getString("club_name");
                 String gerantName = rs.getString("gerant_name");
                 int membreount = rs.getInt("membre_count");
                 int id = rs.getInt("id");
-                ids.add(id);
+                idsClubs.add(id);
                 switch (clubCount) {
                     case 1:
                         lblClubName1.setText(clubName);
@@ -853,14 +858,14 @@ public class Dashboard extends javax.swing.JFrame {
             rs = pst.executeQuery();
 
             int eventCount = 0;
-            ids = new ArrayList();
+            idsEvenets = new ArrayList();
             while (rs.next()) {
                 System.out.println("has next");
                 eventCount++;
                 String eventTitle = rs.getString("event_title");
                 int membreCount = rs.getInt("membre_count");
                 int id = rs.getInt("event_id");
-                ids.add(id);
+                idsEvenets.add(id);
                 switch (eventCount) {
                     case 1:
                         lblEventTitle1.setText(eventTitle);
@@ -906,30 +911,30 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnClub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub1ActionPerformed
         // TODO add your handling code here:
-        System.out.println(ids.get(0));
+        System.out.println(idsClubs.get(0));
         this.setVisible(false);
-        new GestionMembres(ids.get(0)).setVisible(true);
+        new GestionMembres(idsClubs.get(0)).setVisible(true);
     }//GEN-LAST:event_btnClub1ActionPerformed
 
     private void btnClub2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub2ActionPerformed
         // TODO add your handling code here:
-        System.out.println(ids.get(1));
+        System.out.println(idsClubs.get(1));
         this.setVisible(false);
-        new GestionMembres(ids.get(1)).setVisible(true);
+        new GestionMembres(idsClubs.get(1)).setVisible(true);
     }//GEN-LAST:event_btnClub2ActionPerformed
 
     private void btnClub3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub3ActionPerformed
         // TODO add your handling code here:
-        System.out.println(ids.get(2));
+        System.out.println(idsClubs.get(2));
         this.setVisible(false);
-        new GestionMembres(ids.get(2)).setVisible(true);
+        new GestionMembres(idsClubs.get(2)).setVisible(true);
     }//GEN-LAST:event_btnClub3ActionPerformed
 
     private void btnClub4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClub4ActionPerformed
         // TODO add your handling code here:
-        System.out.println(ids.get(3));
+        System.out.println(idsClubs.get(3));
         this.setVisible(false);
-        new GestionMembres(ids.get(3)).setVisible(true);
+        new GestionMembres(idsClubs.get(3)).setVisible(true);
     }//GEN-LAST:event_btnClub4ActionPerformed
 
     private void btnEvent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent1ActionPerformed
