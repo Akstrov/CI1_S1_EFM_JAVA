@@ -944,18 +944,26 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnEvent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent1ActionPerformed
         // TODO add your handling code here:
+        new EventParticipants(idsEvenets.get(0)).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnEvent1ActionPerformed
 
     private void btnEvent2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent2ActionPerformed
         // TODO add your handling code here:
+        new EventParticipants(idsEvenets.get(1)).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnEvent2ActionPerformed
 
     private void btnEvent3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent3ActionPerformed
         // TODO add your handling code here:
+        new EventParticipants(idsEvenets.get(2)).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnEvent3ActionPerformed
 
     private void btnEvent4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvent4ActionPerformed
         // TODO add your handling code here:
+        new EventParticipants(idsEvenets.get(3)).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnEvent4ActionPerformed
 
     public void gerantClubId(){

@@ -74,6 +74,7 @@ public class GestionEvents extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
+        btnDetails = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -181,6 +182,14 @@ public class GestionEvents extends javax.swing.JFrame {
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Termine", "En cours", "Prevu" }));
 
+        btnDetails.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDetails.setText("Details");
+        btnDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -204,19 +213,21 @@ public class GestionEvents extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(lblClub, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtStart)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtEnd)
-                            .addComponent(cmbClubs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbStatus, 0, 217, Short.MAX_VALUE)))
+                            .addComponent(jLabel7)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(151, 151, 151)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtStart)
+                        .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtEnd)
+                        .addComponent(cmbClubs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmbStatus, 0, 217, Short.MAX_VALUE))
+                    .addComponent(btnDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -267,7 +278,8 @@ public class GestionEvents extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(btnUpdate))
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDetails))
                 .addGap(50, 50, 50))
         );
 
@@ -308,6 +320,7 @@ public class GestionEvents extends javax.swing.JFrame {
         // TODO add your handling code here:
         lblId.setVisible(false);
         txtId.setVisible(false);
+        btnDetails.setVisible(false);
         if(!role.toLowerCase().equals("admin")){
             lblClub.setVisible(false);
             cmbClubs.setVisible(false);
@@ -331,6 +344,7 @@ public class GestionEvents extends javax.swing.JFrame {
             // TODO add your handling code here:
             lblId.setVisible(true);
             txtId.setVisible(true);
+            btnDetails.setVisible(true);
             DefaultTableModel model = (DefaultTableModel) tEvents.getModel();
             int row = tEvents.getSelectedRow();
             txtId.setText(model.getValueAt(row, 0).toString());
@@ -397,6 +411,12 @@ public class GestionEvents extends javax.swing.JFrame {
             Logger.getLogger(GestionEvents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new EventParticipants(Integer.parseInt(txtId.getText())).setVisible(true);
+    }//GEN-LAST:event_btnDetailsActionPerformed
 
     private void FillClubs(){
         try {
@@ -484,6 +504,7 @@ public class GestionEvents extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnDetails;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbClubs;
     private javax.swing.JComboBox<String> cmbStatus;
